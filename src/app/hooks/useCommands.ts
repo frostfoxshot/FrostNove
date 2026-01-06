@@ -159,7 +159,7 @@ export enum Command {
   UnFlip = 'unflip',
   Delete = 'delete',
   Acl = 'acl',
-  Rainbow = 'rainbow',
+ // Rainbow = 'rainbow',
 }
 
 export type CommandContent = {
@@ -271,37 +271,6 @@ export const useCommands = (mx: MatrixClient, room: Room): CommandRecord => {
           const flagToContent = parseFlags(flags);
           const reason = flagToContent.r;
           users.map((id) => mx.kick(room.roomId, id, reason));
-        },
-      },
-    
-      [Command.Rainbow]: {
-        name: Command.Rainbow,
-        description: 'Send a rainbow message with colored letters',
-        exe: async (payload: string) => {
-          if (!payload) return;
-
-          const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
-          let formattedMessage = '';
-
-          for (let i = 0; i < payload.length; i++) {
-            const char = payload[i]
-              .replace(/&/g, '&amp;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;');
-            const color = colors[i % colors.length];
-            formattedMessage += `<span style="color:${color}">${char}</span>`;
-          }
-
-          try {
-            await mx.sendMessage(room.roomId, {
-              msgtype: 'm.text',
-              body: payload, // fallback for clients that don't support HTML
-              format: 'org.matrix.custom.html',
-              formatted_body: formattedMessage,
-            });
-          } catch (err) {
-            console.error('Rainbow message failed:', err);
-          }
         },
       },
       [Command.Kick]: {
