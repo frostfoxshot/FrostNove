@@ -273,46 +273,37 @@ export const useCommands = (mx: MatrixClient, room: Room): CommandRecord => {
           users.map((id) => mx.kick(room.roomId, id, reason));
         },
       },
+    
       [Command.Rainbow]: {
         name: Command.Rainbow,
         description: 'Send a rainbow message with colored letters',
         exe: async (payload: string) => {
           if (!payload) return;
 
-          const colors = [
-            '#FF0000', // red
-            '#FF7F00', // orange
-            '#FFFF00', // yellow
-            '#00FF00', // green
-            '#0000FF', // blue
-            '#4B0082', // indigo
-            '#8B00FF', // violet
-          ];
+          const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+          let formattedMessage = '';
 
-          const chars = payload.split('');
-          const formattedChars = chars.map((c, i) => {
-           // wrap each character in a span with a color
-            const color = colors[i % colors.length];
-      // escape HTML special characters
-            const escaped = c
+          for (let i = 0; i < payload.length; i++) {
+            const char = payload[i]
               .replace(/&/g, '&amp;')
               .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;')
-              .replace(/"/g, '&quot;');
-            return `<span style="color:${color}">${escaped}</span>`;
-          });
+              .replace(/>/g, '&gt;');
+            const color = colors[i % colors.length];
+            formattedMessage += `<span style="color:${color}">${char}</span>`;
+          }
 
-          const formattedMessage = formattedChars.join('');
-
-          await mx.sendMessage(room.roomId, {
-            msgtype: 'm.text',
-            body: payload, // plain fallback
-            formatted_body: formattedMessage,
-            format: 'org.matrix.custom.html',
-          });
+          try {
+            await mx.sendMessage(room.roomId, {
+              msgtype: 'm.text',
+              body: payload, // fallback for clients that don't support HTML
+              format: 'org.matrix.custom.html',
+              formatted_body: formattedMessage,
+            });
+          } catch (err) {
+            console.error('Rainbow message failed:', err);
+          }
         },
       },
-
       [Command.Kick]: {
         name: Command.Kick,
         description: 'Kick user from room. Example: /kick userId1 userId2 servername [-r reason]',
