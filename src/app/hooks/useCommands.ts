@@ -159,6 +159,7 @@ export enum Command {
   UnFlip = 'unflip',
   Delete = 'delete',
   Acl = 'acl',
+  Rainbow = 'rainbow',
 }
 
 export type CommandContent = {
@@ -272,6 +273,46 @@ export const useCommands = (mx: MatrixClient, room: Room): CommandRecord => {
           users.map((id) => mx.kick(room.roomId, id, reason));
         },
       },
+      [Command.Rainbow]: {
+        name: Command.Rainbow,
+        description: 'Send a rainbow message with colored letters',
+        exe: async (payload: string) => {
+          if (!payload) return;
+
+          const colors = [
+            '#FF0000', // red
+            '#FF7F00', // orange
+            '#FFFF00', // yellow
+            '#00FF00', // green
+            '#0000FF', // blue
+            '#4B0082', // indigo
+            '#8B00FF', // violet
+          ];
+
+          const chars = payload.split('');
+          const formattedChars = chars.map((c, i) => {
+           // wrap each character in a span with a color
+            const color = colors[i % colors.length];
+      // escape HTML special characters
+            const escaped = c
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;');
+            return `<span style="color:${color}">${escaped}</span>`;
+          });
+
+          const formattedMessage = formattedChars.join('');
+
+          await mx.sendMessage(room.roomId, {
+            msgtype: 'm.text',
+            body: payload, // plain fallback
+            formatted_body: formattedMessage,
+            format: 'org.matrix.custom.html',
+          });
+        },
+      },
+
       [Command.Kick]: {
         name: Command.Kick,
         description: 'Kick user from room. Example: /kick userId1 userId2 servername [-r reason]',
