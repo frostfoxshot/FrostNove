@@ -1,8 +1,9 @@
 name = "frostnove"
-compatibility_date = "2026-01-06"
-
+compatibility_date = "2026-01-07"
 main = "worker.js"
 
-[assets]
-directory = "./dist"
-binding = "ASSETS"
+type = "javascript"
+
+[site]
+bucket = "./dist"
+entry-point = "."
