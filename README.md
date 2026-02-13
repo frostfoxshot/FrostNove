@@ -1,9 +1,9 @@
-# FrostNove
+## **About FrostNove**
+**FrostNove** is a fork of **Cinny**, originally planned to include **Voice Over Internet Protocol (VoIP)** support and Element-like commands. However, the focus has since shifted to expanding **theme customization** and adding **quality-of-life (QoL) features**.
 
-FrostNove is a fork of cinny that will have the features of element such as the commands and the Voice Over Internet Protocal system, commonly referred to as VOIP. The original cinny documentation is below.
+The original **Cinny documentation** is included below for reference.
 
-Please note none of these features are implemented yet as of 2025-01-06, and will probably take a while to be implemented.
-
+*Note: As of 2026-02-13, these features are not yet implemented and may take time to develop.*
 ---
 # Cinny
 <p>
