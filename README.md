@@ -1,5 +1,5 @@
 # FrostNove has been deprecated
-This is due to Frostnoves original goals already being met by https://sable.moe cinny fork. Frostnove has also many build errors so additionally another reason to forget this.
+This is due to Frostnoves original goals already being met by https://sable.moe cinny fork. Frostnove has also many build errors so additionally another reason to forget this. https://github.com/7w1/sable
 
 ## **About FrostNove**
 **FrostNove** is a fork of **Cinny**, originally planned to include **Voice Over Internet Protocol (VoIP)** support and Element-like commands. However, the focus has since shifted to expanding **theme customization** and adding **quality-of-life (QoL) features**. While you can access it at https://frostnove.aexelgroup.app, we recommend building it from source for the best experience, my servers are a bit slow and unreliable.
